@@ -1,0 +1,86 @@
+//بسم الله الرحمن الرحيم
+///   ***   ---   |||________In the name of ALLAH________|||   ---   ***   ///
+#include<bits/stdc++.h>
+using namespace std ;
+typedef long long ll ;
+typedef unsigned long long ull ;
+using u128 = __uint128_t;
+#define el << '\n'
+#define PI 3.141592653589793238
+#define _test_ int _ ; cin >> _ ; while(_--)
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
+#define file() freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout)
+ll gcd ( ll  a, ll b ) { return __gcd ( a, b ) ; }
+ll lcm ( ll a, ll b ) { return a * ( b / gcd ( a, b ) ) ; }
+int dx[]={0,0,+1,-1,+1,-1,-1,+1} ;
+int dy[]={+1,-1,0,0,+1,-1,+1,-1} ;
+///   ***   ---   |||__________LET'S BEGIN (-_^)________|||   ---   ***   ///
+
+const ll inf = 1e9 ;
+const ll mx = 3e2+123 ;
+
+ull binpower( ull a , ull d , ull n )
+{
+    ull result = 1 ;
+    a %= n ;
+    while (d)
+    {
+        if (d & 1)
+            result = (u128) result * a % n ;    //  overflow if u28 is not used  //
+        a = (u128)a * a % n ;    //  overflow if u28 is not used  //
+        d >>= 1 ;
+    }
+    return result;
+}
+
+bool check_composite(ull n, ull a, ull d, int k)
+{
+    ull x = binpower(a, d, n) ;     //  (a^d) % n  //
+    if ( x == 1 || x == n - 1 )
+        return false ;
+    for (int r = 1; r < k; r++)
+    {
+        x = (u128)x * x % n ;    //  overflow if u128 is not used  //
+        if (x == n - 1)
+            return false ;
+    }
+    return true;
+}
+
+bool MillerRabin(ull n)
+{
+    int k = 0 ;
+    ull d = n - 1 ;
+    while ( ! d&1 )
+    {
+        d >>= 1 ;
+        k++;
+    }
+
+    for (int a : { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 } )
+    {
+        if ( n == a )
+            return true ;
+        if ( check_composite( n, a, d, k ) )
+            return false ;
+    }
+    return true ;
+}
+
+void _case_( )
+{
+    ull n ;
+    cin >> n ;
+    if( n%2==0 and n!=2 )
+        cout << "NO\n" ;
+    else MillerRabin(n) ? cout << "YES\n" : cout << "NO\n" ;
+}
+
+int main( )
+{
+    optimize( );
+    _test_
+        _case_( ) ;
+}
+
+///////////* ________ *  N A Y E M  * ________ *///////////
